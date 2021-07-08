@@ -11,6 +11,7 @@ import org.tribot.api2007.ext.Filters;
 import org.tribot.api2007.types.*;
 import org.tribot.script.Script;
 import scripts.Items.PotionEnum;
+import scripts.dax_api.walker.utils.AccurateMouse;
 import scripts.dax_api.walker.utils.camera.DaxCamera;
 
 
@@ -50,6 +51,40 @@ public class Utils {
         );
 
         return objectArea;
+    }
+
+
+    public static boolean handleUnclickableObj(RSObject obj) {
+        if (!obj.isClickable()) {
+            if (obj.getPosition().distanceTo(Player.getPosition()) > 12) {
+                General.println("[Utilities]: Object is far away, walking to obj");
+
+                if (!PathingUtil.localNavigation(obj.getPosition()))
+                    Walking.blindWalkTo(obj.getPosition());
+
+                DaxCamera.focus(obj);
+                return obj.isClickable();
+
+            } else
+                DaxCamera.focus(obj);
+        }
+        return obj.isClickable();
+    }
+
+
+    public static boolean clickObject(Predicate<RSObject> filter, String action) {
+        RSObject[] obj = Objects.findNearest(40, filter);
+        if (obj.length > 0) {
+
+            handleUnclickableObj(obj[0]);
+
+            if (Utils.unselectItem())
+                General.sleep(General.randomSD(50, 500, 200, 75));
+
+            return AccurateMouse.click(obj[0], action);
+        }
+        System.out.println("[Utilities]: Cannot find obj based on applied filter."); //don't want to print to client
+        return false;
     }
 
   /*  public static void setNPCAttackPreference(boolean hidden) {

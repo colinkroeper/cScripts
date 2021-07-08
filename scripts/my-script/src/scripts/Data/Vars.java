@@ -2,6 +2,7 @@ package scripts.Data;
 
 import org.tribot.api.General;
 import org.tribot.api2007.Game;
+import scripts.AgilityAPI.COURSES;
 import scripts.AntiBan;
 import scripts.Timer;
 
@@ -42,6 +43,7 @@ public class Vars {
 
     // are we using a course specified in args/GUI?
     public boolean overridingCourse = false;
+    public COURSES course;
 
     public boolean useSummerPie = false;
 

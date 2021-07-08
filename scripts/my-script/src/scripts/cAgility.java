@@ -12,11 +12,14 @@ import org.tribot.script.interfaces.Painting;
 import org.tribot.script.interfaces.Starting;
 import scripts.API.Task;
 import scripts.API.TaskSet;
+import scripts.AgilityAPI.COURSES;
 import scripts.Data.Vars;
 import scripts.Tasks.Canifis.CanifisCourse;
 import scripts.Tasks.Canifis.GoToCanifis;
 import scripts.Tasks.DraynorVillage.DraynorCourse;
 import scripts.Tasks.DraynorVillage.GoToDraynor;
+import scripts.Tasks.Pollvniveach.GoToStart;
+import scripts.Tasks.Pollvniveach.Pollniveach;
 import scripts.Tasks.SeersCourse.GoToSeersStart;
 import scripts.Tasks.SeersCourse.Seers;
 import scripts.Tasks.TreeGnome.GoToTreeGnome;
@@ -50,8 +53,8 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
     @Override
     public void run() {
         TaskSet tasks = new TaskSet(
-                //  new Pollniveach(),
-                // new GoToStart(),
+                new Pollniveach(),
+                new GoToStart(),
                 new GoToTreeGnome(),
                 new TreeGnomeCourse(),
                 new GoToDraynor(),
@@ -60,7 +63,7 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
                 new VarrockCourse(),
                 new GoToCanifis(),
                 new CanifisCourse(),
-        new Seers(),
+                new Seers(),
                 new GoToSeersStart()
 
         );
@@ -197,6 +200,18 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
                 }
                 if (arg.toLowerCase().contains("frequency:")) {
 
+                }
+                if (arg.toLowerCase().contains("seers")) {
+                    General.println("[Arguments]: Overriding course selection");
+                    General.println("[Arguments]: Course selected: " + COURSES.SEERS_VILLAGE.courseName, Color.RED);
+                    Vars.get().overridingCourse = true;
+                    Vars.get().course = COURSES.SEERS_VILLAGE;
+                }
+                if (arg.toLowerCase().contains("varrock")) {
+                    General.println("[Arguments]: Overriding course selection");
+                    General.println("[Arguments]: Course selected: " + COURSES.VARROCK.courseName, Color.RED);
+                    Vars.get().overridingCourse = true;
+                    Vars.get().course = COURSES.VARROCK;
                 }
 
             } catch (Exception e) {

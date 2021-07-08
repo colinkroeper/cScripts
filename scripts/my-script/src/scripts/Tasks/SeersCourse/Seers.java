@@ -1,13 +1,17 @@
 package scripts.Tasks.SeersCourse;
 
 
-import org.tribot.api.General;
+import org.tribot.api2007.Player;
+import org.tribot.api2007.ext.Filters;
 import scripts.API.Priority;
 import scripts.API.Task;
 import scripts.AgilityAPI.AgilUtils;
 import scripts.AgilityAPI.COURSES;
 import scripts.AgilityAPI.Obstacle;
 import scripts.Data.AgilityAreas;
+import scripts.Data.Vars;
+import scripts.Timer;
+import scripts.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +52,7 @@ public class Seers implements Task {
     String message = "";
 
     @Override
-    public String toString(){
+    public String toString() {
         return message;
     }
 
@@ -59,11 +63,17 @@ public class Seers implements Task {
 
     @Override
     public boolean validate() {
-        return AgilUtils.isWithinLevelRange(60,80);
+        return (Vars.get().overridingCourse && Vars.get().course != null
+                && Vars.get().course == COURSES.SEERS_VILLAGE) ||
+                AgilUtils.isWithinLevelRange(60, 70);
     }
 
     @Override
     public void execute() {
+        if (AgilityAreas.UPSTAIRS_SEERS_BANK.contains(Player.getPosition())) {
+            if (Utils.clickObject(Filters.Objects.actionsContains("Climb-down"), "Climb-down"))
+                Timer.waitCondition(() -> Player.getPosition().getPlane() == 0, 5000, 7000);
+        }
         Optional<Obstacle> obs = AgilUtils.getCurrentObstacle(allObstacles);
         obs.ifPresent(obstacle -> message = obstacle.getObstacleAction() + " " +
                 obstacle.getObstacleName());

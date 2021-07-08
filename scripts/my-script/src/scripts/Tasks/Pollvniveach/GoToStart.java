@@ -8,6 +8,7 @@ import scripts.API.Task;
 import scripts.AgilityAPI.AgilUtils;
 import scripts.AgilityAPI.COURSES;
 import scripts.Data.AgilityAreas;
+import scripts.Data.Vars;
 import scripts.PathingUtil;
 import scripts.dax_api.walker.utils.AccurateMouse;
 
@@ -31,7 +32,8 @@ public class GoToStart implements Task {
     public boolean validate() {
         return AgilUtils.isWithinLevelRange(70, 99) &&
                 Player.getPosition().getPlane() == 0 &&
-                !AgilityAreas.POLV_LARGE_START_AREA.contains(Player.getPosition());
+                !AgilityAreas.POLV_LARGE_START_AREA.contains(Player.getPosition())
+                && !Vars.get().overridingCourse;
     }
 
 

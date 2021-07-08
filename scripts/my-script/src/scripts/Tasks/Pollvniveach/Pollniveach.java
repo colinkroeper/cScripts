@@ -7,6 +7,7 @@ import scripts.AgilityAPI.AgilUtils;
 import scripts.AgilityAPI.COURSES;
 import scripts.AgilityAPI.Obstacle;
 import scripts.Data.AgilityAreas;
+import scripts.Data.Vars;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +83,7 @@ public class Pollniveach implements Task {
 
     @Override
     public boolean validate() {
-        return AgilUtils.isWithinLevelRange(70,99);
+        return AgilUtils.isWithinLevelRange(70,99) && !Vars.get().overridingCourse;
     }
 
 

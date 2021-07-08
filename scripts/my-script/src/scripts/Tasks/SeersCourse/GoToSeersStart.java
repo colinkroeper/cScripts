@@ -8,6 +8,7 @@ import scripts.API.Task;
 import scripts.AgilityAPI.AgilUtils;
 import scripts.AgilityAPI.COURSES;
 import scripts.Data.AgilityAreas;
+import scripts.Data.Vars;
 import scripts.PathingUtil;
 import scripts.Timer;
 
@@ -21,9 +22,11 @@ public class GoToSeersStart implements Task {
 
     @Override
     public boolean validate() {
-        return AgilUtils.isWithinLevelRange(60, 80) &&
-                Player.getPosition().getPlane() == 0 &&
-                !AgilityAreas.SEERS_WALL_AREA.contains(Player.getPosition());
+        return ((Vars.get().overridingCourse  && Vars.get().course != null
+                && Vars.get().course == COURSES.SEERS_VILLAGE) ||
+                AgilUtils.isWithinLevelRange(60, 70)) &&
+                (Player.getPosition().getPlane() == 0 &&
+                        !AgilityAreas.SEERS_LARGE_WALL_AREA.contains(Player.getPosition()));
     }
 
     @Override
