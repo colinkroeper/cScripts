@@ -29,7 +29,7 @@ public class GoToStart implements Task {
 
     @Override
     public boolean validate() {
-        return AgilUtils.isWithinLevelRange(70, 80) &&
+        return AgilUtils.isWithinLevelRange(70, 99) &&
                 Player.getPosition().getPlane() == 0 &&
                 !AgilityAreas.POLV_LARGE_START_AREA.contains(Player.getPosition());
     }

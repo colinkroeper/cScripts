@@ -97,6 +97,8 @@ public class AgilityAreas {
      **** SEERS ****
      **************/
     public static final RSArea SEERS_WALL_AREA = new RSArea(new RSTile(2730, 3487, 0), new RSTile(2727, 3489, 0));
+    public static final RSArea SEERS_LARGE_WALL_AREA = new RSArea(new RSTile(2732, 3485, 0), new RSTile(2725, 3491, 0));
+
     public static final RSTile[] SEERS_PATH_TO_WALL = {
             new RSTile(2718, 3468, 0),
             new RSTile(2726, 3476, 0),

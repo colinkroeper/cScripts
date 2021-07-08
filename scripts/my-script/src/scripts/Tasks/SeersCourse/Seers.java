@@ -1,20 +1,23 @@
 package scripts.Tasks.SeersCourse;
 
 
+import org.tribot.api.General;
 import scripts.API.Priority;
 import scripts.API.Task;
+import scripts.AgilityAPI.AgilUtils;
 import scripts.AgilityAPI.COURSES;
 import scripts.AgilityAPI.Obstacle;
 import scripts.Data.AgilityAreas;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 public class Seers implements Task {
 
     public Obstacle WALL = new Obstacle(14927, "Climb-up",
-            AgilityAreas.SEERS_WALL_AREA,
+            AgilityAreas.SEERS_LARGE_WALL_AREA,
             AgilityAreas.SEERS_GAP_ONE_AREA);
     public Obstacle GAP_ONE = new Obstacle(14928, "Jump",
             AgilityAreas.SEERS_GAP_ONE_AREA,
@@ -32,38 +35,21 @@ public class Seers implements Task {
             AgilityAreas.SEERS_EDGE_AREA,
             AgilityAreas.SEERS_END_AREA);
 
-    List<Obstacle> allObstacles = new ArrayList<>();
+    List<Obstacle> allObstacles = new ArrayList<>(Arrays.asList(
+            WALL,
+            GAP_ONE,
+            TIGHT_ROPE,
+            GAP_TWO,
+            GAP_THREE,
+            EDGE
+    ));
 
-    public  List<Obstacle> createList() {
-        allObstacles.add(WALL);
-        allObstacles.add(GAP_ONE);
-        allObstacles.add(TIGHT_ROPE);
-        allObstacles.add(GAP_TWO);
-        allObstacles.add(GAP_THREE);
-        allObstacles.add(EDGE);
-        return allObstacles;
-    }
 
-    /**
-     * Gets vailid obstacle
-     * @return Optional of valid obstacle or empty optional
-     */
-    public Optional<Obstacle> getCurrentObstacle() {
-        if (allObstacles.isEmpty())
-            allObstacles = createList();
-
-        for (int i = 0; i < allObstacles.size(); i++) {
-            if (allObstacles.get(i).isValidObstacle()) {
-                return Optional.ofNullable(allObstacles.get(i));
-            }
-        }
-        return Optional.empty();
-    }
-
+    String message = "";
 
     @Override
     public String toString(){
-        return "Seers Course";
+        return message;
     }
 
     @Override
@@ -73,12 +59,14 @@ public class Seers implements Task {
 
     @Override
     public boolean validate() {
-        return getCurrentObstacle().isPresent();
+        return AgilUtils.isWithinLevelRange(60,80);
     }
 
     @Override
     public void execute() {
-        Optional<Obstacle> obs = getCurrentObstacle();
+        Optional<Obstacle> obs = AgilUtils.getCurrentObstacle(allObstacles);
+        obs.ifPresent(obstacle -> message = obstacle.getObstacleAction() + " " +
+                obstacle.getObstacleName());
         obs.ifPresent(Obstacle::navigateObstacle);
     }
 

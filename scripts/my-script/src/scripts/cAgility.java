@@ -1,18 +1,5 @@
 package scripts;
 
-import scripts.API.Task;
-import scripts.API.TaskSet;
-import scripts.Data.Vars;
-import scripts.Tasks.Canifis.CanifisCourse;
-import scripts.Tasks.Canifis.GoToCanifis;
-import scripts.Tasks.DraynorVillage.DraynorCourse;
-import scripts.Tasks.DraynorVillage.GoToDraynor;
-import scripts.Tasks.Pollvniveach.GoToStart;
-import scripts.Tasks.Pollvniveach.Pollniveach;
-import scripts.Tasks.TreeGnome.GoToTreeGnome;
-import scripts.Tasks.TreeGnome.TreeGnomeCourse;
-import scripts.Tasks.Varrock.GoToVarrock;
-import scripts.Tasks.Varrock.VarrockCourse;
 import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.input.Mouse;
@@ -23,6 +10,19 @@ import org.tribot.script.interfaces.Arguments;
 import org.tribot.script.interfaces.Ending;
 import org.tribot.script.interfaces.Painting;
 import org.tribot.script.interfaces.Starting;
+import scripts.API.Task;
+import scripts.API.TaskSet;
+import scripts.Data.Vars;
+import scripts.Tasks.Canifis.CanifisCourse;
+import scripts.Tasks.Canifis.GoToCanifis;
+import scripts.Tasks.DraynorVillage.DraynorCourse;
+import scripts.Tasks.DraynorVillage.GoToDraynor;
+import scripts.Tasks.SeersCourse.GoToSeersStart;
+import scripts.Tasks.SeersCourse.Seers;
+import scripts.Tasks.TreeGnome.GoToTreeGnome;
+import scripts.Tasks.TreeGnome.TreeGnomeCourse;
+import scripts.Tasks.Varrock.GoToVarrock;
+import scripts.Tasks.Varrock.VarrockCourse;
 import scripts.dax_api.api_lib.WebWalkerServerApi;
 import scripts.dax_api.api_lib.models.DaxCredentials;
 import scripts.dax_api.api_lib.models.DaxCredentialsProvider;
@@ -50,8 +50,8 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
     @Override
     public void run() {
         TaskSet tasks = new TaskSet(
-                new Pollniveach(),
-                new GoToStart(),
+                //  new Pollniveach(),
+                // new GoToStart(),
                 new GoToTreeGnome(),
                 new TreeGnomeCourse(),
                 new GoToDraynor(),
@@ -59,7 +59,9 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
                 new GoToVarrock(),
                 new VarrockCourse(),
                 new GoToCanifis(),
-                new CanifisCourse()
+                new CanifisCourse(),
+        new Seers(),
+                new GoToSeersStart()
 
         );
 

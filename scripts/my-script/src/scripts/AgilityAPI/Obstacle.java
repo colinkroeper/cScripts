@@ -102,7 +102,7 @@ public class Obstacle {
                 }
                 if (this.nextObstacleArea != null) {
                     int chance = General.random(0, 100);
-                    if (chance > Vars.get().abc2Chance) {
+                    if (chance <= Vars.get().abc2Chance) {
 
                         if (Player.isMoving()) {
                             General.println("[Debug]: Accurate Mouse clicking [ABC2] " + cAgility.status);
