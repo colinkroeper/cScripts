@@ -159,7 +159,7 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
         WebWalkerServerApi.getInstance().setDaxCredentialsProvider(new DaxCredentialsProvider() {
             @Override
             public DaxCredentials getDaxCredentials() {
-                return new DaxCredentials("sub_H0C2eULZfbWeoF ", "acb35610-d868-4ce8-8797-0d2e659f87f4");
+                return new DaxCredentials("sub_DPjcfqN4YkIxm8", " PUBLIC-KEY");
             }
         });
         General.println("[Starting]: ABC2 % is: " + Vars.get().abc2Chance + "% of actions");
