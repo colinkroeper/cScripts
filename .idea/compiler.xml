@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.16/6dc192c7f93ec1853f70d59d8a6dcf94eb42866/lombok-1.18.16.jar" />
+        </processorPath>
+        <module name="myScripts.libraries.my-library.test" />
+        <module name="myScripts.libraries.cAPI.test" />
+        <module name="myScripts.scripts.main" />
+        <module name="myScripts.libraries.test" />
+        <module name="myScripts.scripts.my-script.main" />
+        <module name="myScripts.libraries.main" />
+        <module name="myScripts.scripts.my-script.test" />
+        <module name="myScripts.main" />
+        <module name="myScripts.scripts.my-script2.main" />
+        <module name="myScripts.scripts.test" />
+        <module name="myScripts.libraries.cAPI.main" />
+        <module name="myScripts.test" />
+        <module name="myScripts.libraries.my-library.main" />
+        <module name="myScripts.libraries.dax_api.test" />
+        <module name="myScripts.scripts.my-script2.test" />
+        <module name="myScripts.libraries.dax_api.main" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="15" />
+  </component>
+</project>
