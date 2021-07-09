@@ -34,7 +34,7 @@ import scripts.dax_api.teleports.Teleport;
 import java.awt.*;
 import java.util.HashMap;
 
-@ScriptManifest(authors = {"Cass"}, category = "Agility", name = "cAgility v1.1", description = "Jumps on roofs and stuff")
+@ScriptManifest(authors = {"Cass"}, category = "Agility", name = "cAgility v1", description = "Jumps on roofs and stuff")
 public class cAgility extends Script implements Painting, Starting, Ending, Arguments {
 
     final int startLevel = Skills.getActualLevel(Skills.SKILLS.AGILITY);
@@ -158,7 +158,8 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
         General.println("[Debug]: Setting mouse speed to " + b);
         AntiBan.create();
 
-        Teleport.blacklistTeleports(Teleport.GLORY_KARAMJA, Teleport.RING_OF_WEALTH_MISCELLANIA);
+        Teleport.blacklistTeleports(Teleport.GLORY_KARAMJA, Teleport.RING_OF_WEALTH_MISCELLANIA,
+                Teleport.RING_OF_DUELING_FEROX_ENCLAVE);
         Vars.get().startTime = Timing.currentTimeMillis();
 
         WebWalkerServerApi.getInstance().setDaxCredentialsProvider(new DaxCredentialsProvider() {
@@ -167,7 +168,7 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
                 return new DaxCredentials("sub_DPjcfqN4YkIxm8", " PUBLIC-KEY");
             }
         });
-        General.println("[Starting]: ABC2 % is: " + Vars.get().abc2Chance + "% of actions");
+        General.println("[Starting]: ABC2 Sleeps will occur after " + Vars.get().abc2Chance + "% of actions");
     }
 
     @Override

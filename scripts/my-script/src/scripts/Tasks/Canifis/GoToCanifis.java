@@ -1,18 +1,19 @@
 package scripts.Tasks.Canifis;
 
+import org.tribot.api2007.Player;
 import scripts.API.Priority;
 import scripts.API.Task;
 import scripts.AgilityAPI.AgilUtils;
 import scripts.AgilityAPI.COURSES;
 import scripts.Data.AgilityAreas;
 import scripts.Data.Vars;
-import org.tribot.api2007.Player;
 import scripts.PathingUtil;
+import scripts.Timer;
 
 public class GoToCanifis implements Task {
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Going to Canifis course";
     }
 
@@ -34,7 +35,13 @@ public class GoToCanifis implements Task {
 
     @Override
     public void execute() {
-        PathingUtil.walkToArea(AgilityAreas.CANIFIS_SMALL_START, false);
+        if (PathingUtil.localNavigation(AgilityAreas.CANIFIS_SMALL_START.getRandomTile())) {
+            Timer.waitCondition(() ->
+                            AgilityAreas.CANIFIS_LARGE_START.contains(Player.getPosition()),
+                    7000, 9000);
+        } else {
+            PathingUtil.walkToArea(AgilityAreas.CANIFIS_SMALL_START, false);
+        }
     }
 
     @Override
