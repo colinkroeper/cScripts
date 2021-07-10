@@ -10,6 +10,7 @@ import scripts.Data.AgilityAreas;
 import scripts.Data.Vars;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,36 +45,25 @@ public class Pollniveach implements Task {
             AgilityAreas.POLV_OBS_8_AREA);
 
 
-    List<Obstacle> allObstacles = new ArrayList<>();
+    List<Obstacle> allObstacles = new ArrayList<>(Arrays.asList(
+            POLV_START_OBS,
+            POLV_1,
+            POLV_2,
+            POLV_3,
+            POLV_4,
+            POLV_5,
+            POLV_6,
+            POLV_7,
+            POLV_8
+    ));
 
-    public  List<Obstacle> createList() {
-        allObstacles.add(POLV_START_OBS);
-        allObstacles.add(POLV_1);
-        allObstacles.add(POLV_2);
-        allObstacles.add(POLV_3);
-        allObstacles.add(POLV_4);
-        allObstacles.add(POLV_5);
-        allObstacles.add(POLV_6);
-        allObstacles.add(POLV_7);
-        allObstacles.add(POLV_8);
-        return allObstacles;
-    }
 
-    public Optional<Obstacle> getCurrentObstacle() {
-        if (allObstacles.isEmpty())
-            allObstacles = createList();
 
-        for (int i = 0; i < allObstacles.size(); i++) {
-            if (allObstacles.get(i).isValidObstacle()) {
-                return Optional.ofNullable(allObstacles.get(i));
-            }
-        }
-        return Optional.empty();
-    }
+    String message = "";
 
     @Override
     public String toString(){
-        return "Polv Course";
+        return message;
     }
 
     @Override
@@ -83,13 +73,16 @@ public class Pollniveach implements Task {
 
     @Override
     public boolean validate() {
-        return AgilUtils.isWithinLevelRange(70,99) && !Vars.get().overridingCourse;
+        return AgilUtils.isWithinLevelRange(70,99) &&
+                !Vars.get().overridingCourse;
     }
 
 
     @Override
     public void execute() {
-        Optional<Obstacle> obs = getCurrentObstacle();
+        Optional<Obstacle> obs = AgilUtils.getCurrentObstacle(allObstacles);
+        obs.ifPresent(obstacle -> message = obstacle.getObstacleAction() + " " +
+                obstacle.getObstacleName());
         obs.ifPresent(Obstacle::navigateObstacle);
     }
 

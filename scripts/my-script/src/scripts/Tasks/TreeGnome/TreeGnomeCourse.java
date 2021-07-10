@@ -9,6 +9,7 @@ import scripts.AgilityAPI.Obstacle;
 import scripts.Data.AgilityAreas;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,34 +37,22 @@ public class TreeGnomeCourse implements Task {
             AgilityAreas.TG_OBSTACLE_7,
             AgilityAreas.TG_START_FINISH_AREA);
 
-    List<Obstacle> allObstacles = new ArrayList<>();
+    List<Obstacle> allObstacles = new ArrayList<>(Arrays.asList(
+            LOG_OBSTACLE,
+            WALL_ONE,
+            FIRST_TREE,
+            TIGHT_ROPE,
+            TREE_DOWN,
+            WALL_TWO,
+            PIPE
 
-    public List<Obstacle> createList() {
-        allObstacles.add(LOG_OBSTACLE);
-        allObstacles.add(WALL_ONE);
-        allObstacles.add(FIRST_TREE);
-        allObstacles.add(TIGHT_ROPE);
-        allObstacles.add(TREE_DOWN);
-        allObstacles.add(WALL_TWO);
-        allObstacles.add(PIPE);
-        return allObstacles;
-    }
+    ));
 
-    public Optional<Obstacle> getCurrentObstacle() {
-        if (allObstacles.isEmpty())
-            allObstacles = createList();
-
-        for (int i = 0; i < allObstacles.size(); i++) {
-            if (allObstacles.get(i).isValidObstacle()) {
-                return Optional.ofNullable(allObstacles.get(i));
-            }
-        }
-        return Optional.empty();
-    }
+    String message = "";
 
     @Override
     public String toString(){
-        return "Tree Gnome Stronghold";
+        return message;
     }
 
     @Override
@@ -78,7 +67,9 @@ public class TreeGnomeCourse implements Task {
 
     @Override
     public void execute() {
-        Optional<Obstacle> obs = getCurrentObstacle();
+        Optional<Obstacle> obs = AgilUtils.getCurrentObstacle(allObstacles);
+        obs.ifPresent(obstacle -> message = obstacle.getObstacleAction() + " " +
+                obstacle.getObstacleName());
         obs.ifPresent(Obstacle::navigateObstacle);
     }
 

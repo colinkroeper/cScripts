@@ -1,5 +1,6 @@
 package scripts;
 
+import org.tribot.api.DynamicClicking;
 import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.input.Mouse;
@@ -13,7 +14,6 @@ import org.tribot.script.Script;
 import scripts.Items.PotionEnum;
 import scripts.dax_api.walker.utils.AccurateMouse;
 import scripts.dax_api.walker.utils.camera.DaxCamera;
-
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -86,6 +86,25 @@ public class Utils {
         System.out.println("[Utilities]: Cannot find obj based on applied filter."); //don't want to print to client
         return false;
     }
+
+    public static boolean clickObject(String objectName, String action, boolean useAccurateMouse) {
+        RSObject[] obj = Objects.findNearest(40, objectName);
+        if (obj.length > 0) {
+
+            handleUnclickableObj(obj[0]);
+
+            if (Utils.unselectItem())
+                General.sleep(General.randomSD(20, 200, 100, 50));
+            if (useAccurateMouse)
+                return AccurateMouse.click(obj[0], action);
+            else
+                return DynamicClicking.clickRSObject(obj[0], action);
+        }
+        System.out.println("[Utils]: Cannot find obj based on passed string " + objectName); //don't want to print to client
+        return false;
+    }
+
+
 
   /*  public static void setNPCAttackPreference(boolean hidden) {
         if (Interfaces.get(116, 7, 4) != null) { // don't use is substantiated
@@ -339,7 +358,7 @@ public class Utils {
             int lengthSec = lengthMS / 1000;
             General.println("[Utils]: AFKing for " + lengthSec + "s");
             Mouse.leaveGame();
-     Timer.waitCondition(() -> Combat.isUnderAttack(), lengthMS, lengthMS +1);
+            Timer.waitCondition(() -> Combat.isUnderAttack(), lengthMS, lengthMS + 1);
             return true;
         }
         return false;
@@ -499,7 +518,6 @@ public class Utils {
     }
 
 
-
     public static void adjustZoom(int zoom) { // so zoom of 1 is furthest out.
         General.println("[Debug]: Viewport Width " + Game.getViewportWidth());
         General.println("[Debug]: Viewport Scale " + Game.getViewportScale());
@@ -590,8 +608,8 @@ public class Utils {
     public static boolean handleRecoilMessage(String message) {
         if (message.contains("Your Ring of Recoil has shattered.")) {
             General.println("[Message Listener]: Ring of recoil shattered message received.");
-          //  if (Inventory.find(Constants.RING_OF_RECOIL).length > 0)
-          //      return AccurateMouse.click(Inventory.find(Constants.RING_OF_RECOIL)[0], "Wear");
+            //  if (Inventory.find(Constants.RING_OF_RECOIL).length > 0)
+            //      return AccurateMouse.click(Inventory.find(Constants.RING_OF_RECOIL)[0], "Wear");
 
         }
         return false;
@@ -788,7 +806,7 @@ public class Utils {
 
     public static List<Integer> sleep(List<Integer> waitTimes) {
         if (waitTimes.isEmpty())
-           AntiBan.generateTrackers(General.random(500, 1600), false);
+            AntiBan.generateTrackers(General.random(500, 1600), false);
 
         if (!waitTimes.isEmpty())
             AntiBan.generateTrackers(average(waitTimes), false);
@@ -796,7 +814,7 @@ public class Utils {
         final int reactionTime = (int) (AntiBan.getReactionTime() * FACTOR);
         waitTimes.add(reactionTime);
         General.println("[ABC2 Delay]: Sleeping for " + reactionTime + "ms");
-AntiBan.sleepReactionTime(reactionTime);
+        AntiBan.sleepReactionTime(reactionTime);
         return waitTimes;
 
     }
@@ -822,7 +840,7 @@ AntiBan.sleepReactionTime(reactionTime);
         RSItem[] item = Inventory.find(itemId);
         if (item.length > 0) {
             if (item[0].click()) {
-                General.sleep(25,150);
+                General.sleep(25, 150);
                 return true;
             }
         }
@@ -833,7 +851,7 @@ AntiBan.sleepReactionTime(reactionTime);
         RSItem[] item = Inventory.find(itemId);
         if (item.length > 0) {
             if (item[0].click()) {
-                General.sleep(25,150);
+                General.sleep(25, 150);
                 return true;
             }
         }
@@ -844,7 +862,7 @@ AntiBan.sleepReactionTime(reactionTime);
         RSItem[] item = Inventory.find(itemId);
         if (item.length > 0) {
             if (item[0].click(action)) {
-                General.sleep(25,150);
+                General.sleep(25, 150);
                 return true;
             }
         }
@@ -855,7 +873,7 @@ AntiBan.sleepReactionTime(reactionTime);
         RSItem[] item = Inventory.find(itemId);
         if (item.length > 0) {
             if (item[0].click(action)) {
-                General.sleep(25,150);
+                General.sleep(25, 150);
                 return true;
             }
         }
@@ -948,7 +966,7 @@ AntiBan.sleepReactionTime(reactionTime);
     public static boolean equipItem(int[] itemArray) {
         RSItem[] inv = Inventory.find(itemArray);
         if (inv.length > 0 && inv[0].click())
-                return Timer.waitCondition(() -> Equipment.isEquipped(inv[0].getID()), 2000, 4000);
+            return Timer.waitCondition(() -> Equipment.isEquipped(inv[0].getID()), 2000, 4000);
 
         return Equipment.isEquipped(inv[0].getID());
     }

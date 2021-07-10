@@ -51,6 +51,8 @@ public class Vars {
 
     //for future arg support
     public int foodId = 0;
+    public long timeToLevel = 0;
+    public int marksHr = 0;
 
     public int abc2Chance = General.random(15,35); // how often it will abc2 sleep after an obstacle
 
@@ -58,8 +60,8 @@ public class Vars {
      * AFK INFO
      */
 
-    public int afkMin;
-    public int afkMax;
+    public int afkMin =0;
+    public int afkMax = 0;
     public int afkIntervalMin; //4min
     public int afkIntervalMax;//9min
 

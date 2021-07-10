@@ -9,6 +9,7 @@ import scripts.AgilityAPI.Obstacle;
 import scripts.Data.AgilityAreas;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,32 +39,17 @@ public class DraynorCourse implements Task {
             AgilityAreas.DRAYNOR_OBSTACLE_AREA_7,
             AgilityAreas.DRAYNOR_GROUND_LEVEL);
 
-    List<Obstacle> allObstacles = new ArrayList<>();
-
-    public List<Obstacle> createList() {
-        allObstacles.add(WALL_CLIMB);
-        allObstacles.add(TIGHT_ROPE_1);
-        allObstacles.add(TIGHT_ROPE_2);
-        allObstacles.add(LEDGE);
-        allObstacles.add(BUILDING_OBS);
-        allObstacles.add(LEDGE_ONE);
-        allObstacles.add(FINAL_LEDGE);
-        return allObstacles;
-    }
-
-    public Optional<Obstacle> getCurrentObstacle() {
-        if (allObstacles.isEmpty())
-            allObstacles = createList();
-
-        for (int i = 0; i < allObstacles.size(); i++) {
-            if (allObstacles.get(i).isValidObstacle()) {
-                message = allObstacles.get(i).obstacleAction;
-                return Optional.ofNullable(allObstacles.get(i));
-            }
-        }
-        return Optional.empty();
-    }
-
+    List<Obstacle> allObstacles = new ArrayList<>(
+            Arrays.asList(
+                    WALL_CLIMB,
+                    TIGHT_ROPE_1,
+                    TIGHT_ROPE_2,
+                    LEDGE,
+                    BUILDING_OBS,
+                    LEDGE_ONE,
+                    FINAL_LEDGE
+            )
+    );
 
 
     @Override
@@ -79,13 +65,14 @@ public class DraynorCourse implements Task {
 
     @Override
     public boolean validate() {
-        return
-                AgilUtils.isWithinLevelRange(10,30) ;
+        return AgilUtils.isWithinLevelRange(10,30) ;
     }
 
     @Override
     public void execute() {
-        Optional<Obstacle> obs = getCurrentObstacle();
+        Optional<Obstacle> obs = AgilUtils.getCurrentObstacle(allObstacles);
+        obs.ifPresent(obstacle -> message = obstacle.getObstacleAction() + " " +
+                obstacle.getObstacleName());
         obs.ifPresent(Obstacle::navigateObstacle);
     }
 

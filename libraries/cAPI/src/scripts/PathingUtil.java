@@ -17,9 +17,14 @@ public class PathingUtil {
 
    public static DPathNavigator nav = new DPathNavigator();
 
-    public static void movementIdle() {
-        Timer.waitCondition(() -> Player.isMoving(), 3000, 5000);
-        Timer.waitCondition(() -> !Player.isMoving(), 9000, 12000);
+    public static boolean movementIdle() {
+        Timer.waitCondition(Player::isMoving,  1500, 2200);
+        return Timer.waitCondition(() -> !Player.isMoving(), 9000, 12000);
+    }
+
+    public static boolean movementIdle(int longWaitTimeout) {
+        Timer.waitCondition(Player::isMoving, 1500, 2200);
+        return Timer.waitCondition(() -> !Player.isMoving(), longWaitTimeout, longWaitTimeout + 1500);
     }
 
     public static boolean localNavigation(RSTile destination){
@@ -234,9 +239,11 @@ public class PathingUtil {
                 if (Timer.waitCondition(() ->
                         DaxWalker.getInstance().walkTo(tile), 5000, 8000)) {
                     currentTime = System.currentTimeMillis();
-                    Timer.waitCondition(() -> largeArea.contains(Player.getPosition()), sleepMin, sleepMax);
+                    Timer.waitCondition(() -> largeArea.contains(Player.getPosition()) || !Player.isMoving(), sleepMin, sleepMax);
+
                     if (abc2Sleep)
                         Utils.abc2ReactionSleep(currentTime);
+
                     return true;
 
                 } else {

@@ -58,15 +58,6 @@ public class CanifisCourse implements Task {
             FINAL_LEDGE
     ));
 
-    public Optional<Obstacle> getCurrentObstacle() {
-        for (int i = 0; i < allObstacles.size(); i++) {
-            if (allObstacles.get(i).isValidObstacle()) {
-                message = allObstacles.get(i).obstacleAction;
-                return Optional.ofNullable(allObstacles.get(i));
-            }
-        }
-        return Optional.empty();
-    }
 
 
     @Override
@@ -87,7 +78,7 @@ public class CanifisCourse implements Task {
 
     @Override
     public void execute() {
-        Optional<Obstacle> obs = getCurrentObstacle();
+        Optional<Obstacle> obs = AgilUtils.getCurrentObstacle(allObstacles);
         obs.ifPresent(obstacle -> message = obstacle.getObstacleAction() + " " +
                 obstacle.getObstacleName());
         obs.ifPresent(Obstacle::navigateObstacle);

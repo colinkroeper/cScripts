@@ -40,7 +40,8 @@ public class GoToStart implements Task {
     @Override
     public void execute() {
         General.println("[Debug]: Going to Polv start");
-        PathingUtil.walkToArea(AgilityAreas.POLV_START_AREA, false);
+        if (!PathingUtil.localNavigation(AgilityAreas.POLV_START_TILE))
+            PathingUtil.walkToTile(AgilityAreas.POLV_START_TILE, 2, false);
         int c = General.random(0, 100);
         if (c > chanceOfClickingStartTile) {
             General.println("[Debug]: Screen walking to start");

@@ -1,6 +1,8 @@
 package scripts.Tasks.Varrock;
 
 
+import org.tribot.api2007.Camera;
+import org.tribot.api2007.Game;
 import scripts.API.Priority;
 import scripts.API.Task;
 import scripts.AgilityAPI.AgilUtils;

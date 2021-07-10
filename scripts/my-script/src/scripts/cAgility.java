@@ -34,7 +34,7 @@ import scripts.dax_api.teleports.Teleport;
 import java.awt.*;
 import java.util.HashMap;
 
-@ScriptManifest(authors = {"Cass"}, category = "Agility", name = "cAgility v1", description = "Jumps on roofs and stuff")
+@ScriptManifest(authors = {"Cass"}, category = "Agility", name = "cAgility v1", description = "Jumps on roofs and stuff (2)")
 public class cAgility extends Script implements Painting, Starting, Ending, Arguments {
 
     final int startLevel = Skills.getActualLevel(Skills.SKILLS.AGILITY);
@@ -72,6 +72,7 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
             Vars.get().afkIntervalMin = 240000; //4min
             Vars.get().afkIntervalMax = 540000;//9mi
             Vars.get().afkTimer = new Timer(General.random(Vars.get().afkIntervalMin, Vars.get().afkIntervalMax));
+
         }
 
         while (isRunning) {
@@ -98,7 +99,7 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
     @Override
     public void onEnd() {
         General.println("[Ending]: Running for: " + Timing.msToString(getRunningTime()));
-        General.println("[Ending]: Gained " + gainedXp + " xp.");
+        General.println("[Ending]: Gained " + gainedXp + " xp (" + Vars.get().xpHr + "/hr)");
         General.println("[Ending]: Collected " + Vars.get().marksCollected + " marks of grace.");
         AntiBan.destroy();
 
@@ -114,7 +115,11 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
         double timeRanMin = (timeRan / 3600000);
 
         Vars.get().xpHr = (int) (gainedXp / timeRanMin);
-        int marksHr = (int) (Vars.get().marksCollected / timeRanMin);
+        Vars.get().marksHr = (int) (Vars.get().marksCollected / timeRanMin);
+        long xpToLevel = Skills.getXPToLevel(currentSkill, currentLvl + 1);
+
+        Vars.get().timeToLevel = (long) (xpToLevel / ((gainedXp / timeRan)));
+
         String[] strings;
         if (Vars.get().afkTimer != null) {
             strings = new String[]{
@@ -124,12 +129,13 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
                     "Task: " + status,
                     "AFK Enabled: " + Vars.get().afkMode,
                     "Next AFK in: " + Timing.msToString(Vars.get().afkTimer.getRemaining()),
-                    "Experience Gained: " + Utils.addCommaToNum(gainedXp) + "xp"
-                            + " [" + currentLvl + " (+" + gainedLvl + ")]"
-                            + " || "
-                            + Utils.addCommaToNum(Vars.get().xpHr) + "/hr",
+                    "Experience Gained: " + Utils.addCommaToNum(gainedXp) + "xp "
+                            + "("
+                            + Utils.addCommaToNum(Vars.get().xpHr) + "/hr)",
+                    "Time to Next Level (" + (currentLvl + 1) + "): "
+                            + Timing.msToString(Vars.get().timeToLevel),
                     "Marks Of Grace: " + Vars.get().marksCollected +
-                            " (" + marksHr + "/hr)"
+                            " (" + Vars.get().marksHr + "/hr)"
             };
         } else {
             strings = new String[]{
@@ -138,12 +144,13 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
                     "Course: " + course,
                     "Task: " + status,
                     "AFK Enabled: " + Vars.get().afkMode,
-                    "Experience Gained: " + Utils.addCommaToNum(gainedXp) + "xp"
-                            + " [" + currentLvl + " (+" + gainedLvl + ")]"
-                            + " || "
-                            + Utils.addCommaToNum(Vars.get().xpHr) + "/hr",
+                    "Experience Gained: " + Utils.addCommaToNum(gainedXp) + "xp "
+                            + "("
+                            + Utils.addCommaToNum(Vars.get().xpHr) + "/hr)",
+                    "Time to Next Level (" + (currentLvl + 1) + "): "
+                            + Timing.msToString(Vars.get().timeToLevel),
                     "Marks Of Grace: " + Vars.get().marksCollected +
-                            " (" + marksHr + "/hr)"
+                            " (" + Vars.get().marksHr + "/hr)"
             };
         }
 
@@ -165,7 +172,7 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
         WebWalkerServerApi.getInstance().setDaxCredentialsProvider(new DaxCredentialsProvider() {
             @Override
             public DaxCredentials getDaxCredentials() {
-                return new DaxCredentials("sub_DPjcfqN4YkIxm8", " PUBLIC-KEY");
+                return new DaxCredentials("sub_DPjXXzL5DeSiPf", " PUBLIC-KEY");
             }
         });
         General.println("[Starting]: ABC2 Sleeps will occur after " + Vars.get().abc2Chance + "% of actions");
@@ -189,7 +196,7 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
                     if (splt.length > 0) {
                         General.println(splt[1], Color.RED);
                         String[] numString = splt[1].split(",");
-                        if (numString.length > 0) {
+                        if (numString.length > 1) {
                             int minLngth = Integer.parseInt(numString[0]);
                             int maxLngth = Integer.parseInt(numString[1]);
                             General.println("[Debug]: Min AFK length: " + minLngth);
@@ -201,6 +208,14 @@ public class cAgility extends Script implements Painting, Starting, Ending, Argu
                 }
                 if (arg.toLowerCase().contains("frequency:")) {
 
+                }
+                if (arg.toLowerCase().contains("abc2:")) {
+                    General.println("[Arguments]: ABC2 % Modified by args");
+                    String[] splt = arg.toLowerCase().split("abc2:");
+                    if (splt.length > 1) {
+                        int prcntChance = Integer.parseInt(splt[1]);
+                        Vars.get().abc2Chance = prcntChance;
+                    }
                 }
                 if (arg.toLowerCase().contains("seers")) {
                     General.println("[Arguments]: Overriding course selection");

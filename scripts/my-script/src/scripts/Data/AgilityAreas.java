@@ -140,7 +140,7 @@ public class AgilityAreas {
     public static RSArea POLV_OBS_7_AREA = new RSArea(new RSTile[]{new RSTile(3371, 2990, 2), new RSTile(3363, 2990, 2), new RSTile(3363, 2991, 2), new RSTile(3357, 2991, 2), new RSTile(3357, 2996, 2), new RSTile(3371, 2996, 2)});
     public static RSArea POLV_OBS_8_AREA = new RSArea(new RSTile(3355, 3004, 2), new RSTile(3362, 3000, 2));
     public static RSArea ALL_POLV_LEVEL_0 = new RSArea(new RSTile(3340, 3005, 0), new RSTile(3377, 2944, 0));
-    public static RSTile POLV_START_TILE = new RSTile(3351, 2962, 0);
+    public static RSTile POLV_START_TILE = new RSTile(3352, 2962, 0);
     //RSTile POLV_START_TILE = new RSTile(3351, 2961,0);
 
 }
